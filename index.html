@@ -1335,7 +1335,8 @@ window.loadExternalMatches = async () => {
               </div>
             </div>
           </div>`;
-        container.appendChild(div);
+        const target = document.getElementById(m.id);
+        if (target) target.innerHTML = div.innerHTML;
       });
     });
   }
