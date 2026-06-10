@@ -822,7 +822,76 @@
     document.getElementById('modal-content').innerHTML = html;
     document.getElementById('modal').style.display = 'flex';
   };
+  
+window.loadExternalMatches = async () => {
+  try {
 
+    const response = await fetch(
+      'https://api.football-data.org/v4/competitions/WC/matches',
+      {
+        headers: {
+          'X-Auth-Token': 'TA_CLE_API'
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    const upcomingDiv = document.getElementById('upcoming-matches');
+    const resultsDiv = document.getElementById('latest-results');
+
+    if (!upcomingDiv || !resultsDiv) return;
+
+    const upcoming = data.matches
+      .filter(m => m.status === 'SCHEDULED')
+      .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate))
+      .slice(0, 5);
+
+    const finished = data.matches
+      .filter(m => m.status === 'FINISHED')
+      .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
+      .slice(0, 5);
+
+    upcomingDiv.innerHTML = upcoming.map(match => `
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        padding:10px;
+        border-bottom:1px solid rgba(255,255,255,.1);
+      ">
+        <span>${match.homeTeam.name}</span>
+        <span>vs</span>
+        <span>${match.awayTeam.name}</span>
+      </div>
+    `).join('');
+
+    resultsDiv.innerHTML = finished.map(match => `
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        padding:10px;
+        border-bottom:1px solid rgba(255,255,255,.1);
+      ">
+        <span>${match.homeTeam.name}</span>
+        <strong>
+          ${match.score.fullTime.home ?? 0}
+          -
+          ${match.score.fullTime.away ?? 0}
+        </strong>
+        <span>${match.awayTeam.name}</span>
+      </div>
+    `).join('');
+
+  } catch (error) {
+    console.error(error);
+
+    document.getElementById('upcoming-matches').innerHTML =
+      '<p>Impossible de charger les matchs.</p>';
+
+    document.getElementById('latest-results').innerHTML =
+      '<p>Impossible de charger les résultats.</p>';
+  }
+};
   // ══════════════════════════════════════
   // PLAYER LOGIN
   // ══════════════════════════════════════
