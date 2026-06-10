@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pool Coupe du Monde 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep: #0d2b1a;
+      --green-field: #1a472a;
+      --green-mid: #2d6a4f;
+      --gold: #f5c518;
+      --gold-light: #ffe066;
+      --white: #f8f9fa;
+      --gray-light: #e9ecef;
+      --gray: #adb5bd;
+      --red: #e63946;
+      --text: #1a1a2e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--green-deep);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-field) 100%);
+      border-bottom: 3px solid var(--gold);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo-area h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      color: var(--gold);
+    }
+    .logo-area p {
+      font-size: 0.8rem;
+      color: var(--gray);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+    .header-badge {
+      background: var(--gold);
+      color: var(--text);
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+    }
+
+    /* ─── NAV TABS ─── */
+    nav {
+      background: var(--green-field);
+      display: flex;
+      border-bottom: 2px solid var(--green-mid);
+      overflow-x: auto;
+    }
+    nav button {
+      flex: 1;
+      min-width: 140px;
+      background: none;
+      border: none;
+      color: var(--gray);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    nav button:hover { color: var(--white); }
+    nav button.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--green-field);
+      border: 1px solid var(--green-mid);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.6rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--green-mid);
+      padding-bottom: 0.5rem;
+    }
+    .card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      margin-bottom: 0.75rem;
+    }
+
+    /* ─── FORMS ─── */
+    .form-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 160px; }
+    label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); }
+    input, select {
+      background: var(--green-deep);
+      border: 1px solid var(--green-mid);
+      color: var(--white);
+      padding: 0.6rem 0.8rem;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { outline: none; border-color: var(--gold); }
+    input::placeholder { color: var(--gray); }
+    select option { background: var(--green-deep); }
+
+    .btn {
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.1em;
+      font-size: 1.1rem;
+      padding: 0.7rem 2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--gold); color: var(--text); }
+    .btn-danger { background: var(--red); color: var(--white); font-size: 0.9rem; padding: 0.5rem 1rem; }
+    .btn-sm { font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.35rem 0.8rem; }
+
+    /* ─── LEADERBOARD ─── */
+    .leaderboard { width: 100%; border-collapse: collapse; }
+    .leaderboard th {
+      text-align: left;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gray);
+      padding: 0.6rem 0.8rem;
+      border-bottom: 2px solid var(--green-mid);
+    }
+    .leaderboard td {
+      padding: 0.9rem 0.8rem;
+      border-bottom: 1px solid var(--green-mid);
+      font-size: 0.95rem;
+    }
+    .leaderboard tr:last-child td { border-bottom: none; }
+    .leaderboard tr:hover td { background: rgba(255,255,255,0.03); }
+    .rank { font-family: 'Bebas Neue', cursive; font-size: 1.3rem; color: var(--gray); width: 40px; }
+    .rank-1 { color: var(--gold); }
+    .rank-2 { color: #c0c0c0; }
+    .rank-3 { color: #cd7f32; }
+    .score-badge {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.4rem;
+      color: var(--gold-light);
+    }
+    .pts-label { font-size: 0.7rem; color: var(--gray); margin-left: 2px; }
+
+    /* ─── POINTS BREAKDOWN ─── */
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px dashed var(--green-mid);
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .pts-positive { color: var(--gold-light); font-weight: 600; }
+
+    /* ─── GROUP GRID ─── */
+    .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.2rem; }
+    .group-card {
+      background: var(--green-deep);
+      border: 1px solid var(--green-mid);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .group-card h4 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    /* ─── DRAG & DROP ─── */
+    .drag-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .drag-col-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--gray); margin-bottom: 0.4rem; text-align: center;
+    }
+    .drag-zone {
+      min-height: 56px; border: 2px dashed var(--green-mid); border-radius: 6px;
+      padding: 0.35rem; display: flex; flex-direction: column; gap: 0.35rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .drag-zone.over { border-color: var(--gold); background: rgba(245,197,24,0.07); }
+    .drag-zone.ranked { border-style: solid; border-color: var(--green-mid); }
+    .drag-hint { font-size: 0.68rem; color: var(--gray); text-align: center; margin-bottom: 0.4rem; }
+    .rank-num-badge {
+      font-family: 'Bebas Neue', cursive; font-size: 0.85rem; min-width: 16px;
+      text-align: center; flex-shrink: 0;
+    }
+    .r1 { color: var(--gold); } .r2 { color: #c0c0c0; } .r3 { color: #cd7f32; } .r4 { color: var(--gray); }
+    .team-chip {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--green-field); border: 1px solid var(--green-mid);
+      border-radius: 5px; padding: 0.35rem 0.5rem;
+      cursor: grab; user-select: none;
+      transition: opacity 0.15s, box-shadow 0.15s, border-color 0.15s;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .team-chip:hover { border-color: var(--gold); box-shadow: 0 2px 8px rgba(245,197,24,0.2); }
+    .team-chip.dragging { opacity: 0.35; cursor: grabbing; }
+    .team-chip img { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
+    .team-chip .chip-name { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .drag-zone.locked-zone .team-chip { cursor: default; pointer-events: none; opacity: 0.7; }
+    .slot-num { font-family: 'Bebas Neue', cursive; font-size: 1rem; color: var(--gray); width: 16px; text-align: center; }
+    .team-slot { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+
+    /* ─── MATCHES ─── */
+    .match-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--green-deep);
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .match-teams { flex: 1; font-weight: 600; font-size: 0.95rem; }
+    .match-round { font-size: 0.72rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; min-width: 90px; }
+    .score-inputs { display: flex; align-items: center; gap: 0.4rem; }
+    .score-inputs input { width: 52px; text-align: center; }
+    .score-sep { color: var(--gray); font-weight: 700; }
+
+    /* ─── BONUS SECTION ─── */
+    .bonus-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .bonus-item { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    /* ─── STATUS MESSAGES ─── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--text);
+      font-weight: 700;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+    .toast.error { background: var(--red); color: var(--white); }
+
+    /* ─── LOADING ─── */
+    .loading { text-align: center; padding: 3rem; color: var(--gray); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ─── ADMIN LOGIN ─── */
+    .admin-login { max-width: 360px; margin: 3rem auto; }
+    .admin-panel { display: none; }
+    .admin-panel.visible { display: block; }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state { text-align: center; padding: 3rem 1rem; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { color: var(--gray); font-size: 0.9rem; }
+
+    /* ─── PHASE BADGE ─── */
+    .phase-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--text);
+      font-family: 'Bebas Neue', cursive;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.7rem;
+      border-radius: 2px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    .phase-badge.locked { background: var(--gray); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      header { padding: 1rem; }
+      main { padding: 1rem 0.75rem; }
+      .match-row { flex-wrap: wrap; }
+      nav button { min-width: 110px; padding: 0.75rem 1rem; font-size: 0.78rem; }
+    }
+
+    /* ─── FLAG EMOJI HELPER ─── */
+    .flag { font-size: 1.2rem; }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .section-header h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── PREDICTION DETAIL ─── */
+    .pred-detail-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .pred-detail-box {
+      background: var(--green-field);
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 520px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .pred-detail-box h3 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .close-btn {
+      float: right;
+      background: none;
+      border: none;
+      color: var(--gray);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .close-btn:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PREDICTION DETAIL MODAL -->
+<div class="pred-detail-modal" id="modal" style="display:none">
+  <div class="pred-detail-box">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h3 id="modal-title">Prédictions</h3>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <h1>⚽ Pool CDM 2026</h1>
+    <p>USA · Canada · Mexique</p>
+  </div>
+  <div class="header-badge">FIFA World Cup 2026</div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <button class="active" onclick="showTab('classement')">🏆 Classement</button>
+  <button onclick="showTab('predictions')">📝 Mes Prédictions</button>
+  <button onclick="showTab('resultats')">⚽ Résultats</button>
+  <button onclick="showTab('admin')">🔐 Admin</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ══════════════ CLASSEMENT ══════════════ -->
+  <section class="section active" id="tab-classement">
+    <div class="section-header">
+      <h2>Classement</h2>
+      <button class="btn btn-primary btn-sm" onclick="loadLeaderboard()">↻ Rafraîchir</button>
+    </div>
+    <div class="card" id="leaderboard-container">
+      <div class="loading">Chargement...</div>
+    </div>
+  </section>
+
+  <!-- ══════════════ MES PRÉDICTIONS ══════════════ -->
+  <section class="section" id="tab-predictions">
+    <div class="section-header">
+      <h2>Mes Prédictions</h2>
+    </div>
+
+    <!-- Identification -->
+    <div class="card" id="player-id-card">
+      <h2>Identification</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ton nom</label>
+          <input type="text" id="player-name" placeholder="Ex: Alex Tremblay" maxlength="40"/>
+        </div>
+        <div class="form-group">
+          <label>Mot de passe (4 chiffres)</label>
+          <input type="password" id="player-pin" placeholder="••••" maxlength="4" inputmode="numeric"/>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="loginPlayer()">Accéder à mes prédictions</button>
+      <p style="font-size:0.78rem;color:var(--gray);margin-top:0.75rem;">Première fois? Entre ton nom et crée un PIN. Ensuite utilise toujours le même nom + PIN.</p>
+    </div>
+
+    <!-- PHASE 1 : Groupes -->
+    <div id="phase1-block" style="display:none">
+      <div class="card">
+        <h2>Phase 1 — Groupes <span class="phase-badge" id="phase1-badge">Ouvert</span></h2>
+        <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1.5rem;">Pour chaque groupe, glisse les 4 équipes dans l'ordre prédit (1 à 4). Les 2 premières se qualifient — 5 pts si bonne position, 2 pts si qualifiée mais à la mauvaise place.</p>
+        <div class="groups-grid" id="groups-predictions"></div>
+      </div>
+
+      <!-- BONUS -->
+      <div class="card">
+        <h2>Bonus</h2>
+        <div class="bonus-grid">
+          <div class="bonus-item">
+            <label>🏆 Champion du monde <span class="phase-badge" style="background:var(--green-mid);color:var(--white)">25 pts</span></label>
+            <select id="bonus-champion"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>🥈 Finaliste <span class="phase-badge" style="background:var(--green-mid);color:var(--white)">15 pts</span></label>
+            <select id="bonus-finalist"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>👟 Meilleur buteur <span class="phase-badge" style="background:var(--green-mid);color:var(--white)">10 pts</span></label>
+            <input type="text" id="bonus-scorer" placeholder="Nom du joueur"/>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="savePhase1()">💾 Sauvegarder Phase 1</button>
+    </div>
+
+    <!-- PHASE 2 : Matches à élimination -->
+    <div id="phase2-block" style="display:none">
+      <div class="card" style="margin-top:1.5rem;">
+        <h2>Phase 2 — Matchs à élimination <span class="phase-badge" id="phase2-badge">Fermé</span></h2>
+        <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1.5rem;">Prédit le gagnant et/ou le score exact pour chaque match.</p>
+        <div id="knockout-predictions"></div>
+      </div>
+      <button class="btn btn-primary" onclick="savePhase2()">💾 Sauvegarder Phase 2</button>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ RÉSULTATS ══════════════ -->
+  <section class="section" id="tab-resultats">
+    <div class="section-header"><h2>Résultats &amp; Points</h2></div>
+    <div id="results-list">
+      <div class="loading">Chargement...</div>
+    </div>
+  </section>
+
+  <!-- ══════════════ ADMIN ══════════════ -->
+  <section class="section" id="tab-admin">
+    <div class="section-header"><h2>Administration</h2></div>
+
+    <div class="card admin-login" id="admin-login-card">
+      <h2>Connexion Admin</h2>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Mot de passe admin</label>
+        <input type="password" id="admin-pass" placeholder="Mot de passe"/>
+      </div>
+      <button class="btn btn-primary" onclick="adminLogin()">Connexion</button>
+    </div>
+
+    <div class="admin-panel" id="admin-panel">
+
+      <!-- Config phases -->
+      <div class="card">
+        <h2>Phases du tournoi</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phase 1 (Groupes)</label>
+            <select id="admin-phase1-status">
+              <option value="open">Ouverte aux prédictions</option>
+              <option value="locked">Fermée (verrouillée)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Phase 2 (Élimination)</label>
+            <select id="admin-phase2-status">
+              <option value="locked">Fermée</option>
+              <option value="open">Ouverte aux prédictions</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="savePhaseConfig()">Sauvegarder config</button>
+      </div>
+
+      <!-- Résultats des groupes -->
+      <div class="card">
+        <h2>Résultats des groupes</h2>
+        <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">Entre les équipes qualifiées dans l'ordre (1er, 2e) pour calculer les points Phase 1.</p>
+        <div class="groups-grid" id="admin-groups-results"></div>
+        <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveGroupResults()">Sauvegarder résultats groupes</button>
+      </div>
+
+      <!-- Résultats bonus -->
+      <div class="card">
+        <h2>Résultats Bonus</h2>
+        <div class="bonus-grid">
+          <div class="bonus-item">
+            <label>🏆 Champion du monde</label>
+            <select id="admin-bonus-champion"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>🥈 Finaliste</label>
+            <select id="admin-bonus-finalist"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>👟 Meilleur buteur</label>
+            <input type="text" id="admin-bonus-scorer" placeholder="Nom du joueur"/>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveBonusResults()">Sauvegarder bonus</button>
+      </div>
+
+      <!-- Résultats matchs élimination -->
+      <div class="card">
+        <h2>Résultats — Matchs à élimination</h2>
+        <div id="admin-knockout-results"></div>
+        <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveKnockoutResults()">Sauvegarder résultats</button>
+      </div>
+
+      <!-- Matchs élimination : définir les matchs -->
+      <div class="card">
+        <h2>Définir les matchs (élimination)</h2>
+        <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">Ouvre la Phase 2 et définis les matchs une fois les groupes terminés.</p>
+        <div id="admin-knockout-setup"></div>
+        <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveKnockoutMatches()">Sauvegarder les matchs</button>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <button class="btn btn-danger btn-sm" onclick="adminLogout()">Déconnexion admin</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc,
+    collection, getDocs, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ══════════════════════════════════════
+  // 🔧 CONFIGURATION FIREBASE
+  // Remplace ces valeurs par celles de ton projet Firebase
+  // ══════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "AIzaSyCL1SQP3vCrazBwRtAk9RMaC3FpzjIzSaM",
+    authDomain: "coupedumonde-72cad.firebaseapp.com",
+    projectId: "coupedumonde-72cad",
+    storageBucket: "coupedumonde-72cad.firebasestorage.app",
+    messagingSenderId: "1032155137153",
+    appId: "1:1032155137153:web:ea4c96f455438648ec7980"
+  };
+
+  const ADMIN_PASSWORD = "admin2026"; // 🔧 Change ce mot de passe !
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ══════════════════════════════════════
+  // DATA : 48 équipes FIFA 2026, 12 groupes
+  // ══════════════════════════════════════
+  const GROUPS = {
+    "A": ["Mexique","Afrique du Sud","Corée du Sud","Tchéquie"],
+    "B": ["Canada","Bosnie-Herzégovine","Qatar","Suisse"],
+    "C": ["Brésil","Maroc","Haïti","Écosse"],
+    "D": ["USA","Paraguay","Australie","Turquie"],
+    "E": ["Allemagne","Curaçao","Côte d'Ivoire","Équateur"],
+    "F": ["Pays-Bas","Japon","Suède","Tunisie"],
+    "G": ["Belgique","Égypte","Iran","Nouvelle-Zélande"],
+    "H": ["Espagne","Cap-Vert","Arabie Saoudite","Uruguay"],
+    "I": ["France","Sénégal","Norvège","Irak"],
+    "J": ["Argentine","Algérie","Autriche","Jordanie"],
+    "K": ["Portugal","RD Congo","Ouzbékistan","Colombie"],
+    "L": ["Angleterre","Croatie","Ghana","Panama"]
+  };
+
+  // Liste de toutes les équipes pour les selects bonus
+  const ALL_TEAMS = [
+    "Mexique","Afrique du Sud","Corée du Sud","Tchéquie",
+    "Canada","Bosnie-Herzégovine","Qatar","Suisse",
+    "Brésil","Maroc","Haïti","Écosse",
+    "USA","Paraguay","Australie","Turquie",
+    "Allemagne","Curaçao","Côte d'Ivoire","Équateur",
+    "Pays-Bas","Japon","Suède","Tunisie",
+    "Belgique","Égypte","Iran","Nouvelle-Zélande",
+    "Espagne","Cap-Vert","Arabie Saoudite","Uruguay",
+    "France","Sénégal","Norvège","Irak",
+    "Argentine","Algérie","Autriche","Jordanie",
+    "Portugal","RD Congo","Ouzbékistan","Colombie",
+    "Angleterre","Croatie","Ghana","Panama"
+  ].sort();
+
+  const KNOCKOUT_ROUNDS = [
+    { id: "r16", label: "Huitièmes de finale", ptWin: 3, ptExact: 5 },
+    { id: "qf",  label: "Quarts de finale",    ptWin: 5, ptExact: 8 },
+    { id: "sf",  label: "Demi-finales",         ptWin: 8, ptExact: 12 },
+    { id: "f",   label: "Finale",               ptWin: 15, ptExact: 25 }
+  ];
+
+  // ══════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════
+  let currentPlayer = null; // { name, pin }
+  let gameConfig = { phase1: "open", phase2: "locked", knockoutMatches: [], groupResults: {}, bonusResults: {}, knockoutResults: {} };
+  let allPredictions = {};
+  let isAdmin = false;
+
+  // ══════════════════════════════════════
+  // UTILS
+  // ══════════════════════════════════════
+  window.showTab = (tab) => {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if (tab === 'classement') loadLeaderboard();
+    if (tab === 'resultats') renderResults();
+    if (tab === 'admin' && isAdmin) renderAdmin();
+  };
+
+  function showToast(msg, err = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (err ? ' error' : '');
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  window.closeModal = () => document.getElementById('modal').style.display = 'none';
+
+  // ══════════════════════════════════════
+  // FIREBASE HELPERS
+  // ══════════════════════════════════════
+  async function loadConfig() {
+    try {
+      const snap = await getDoc(doc(db, "config", "game"));
+      if (snap.exists()) Object.assign(gameConfig, snap.data());
+    } catch(e) { console.warn("Config load failed", e); }
+  }
+
+  async function loadAllPredictions() {
+    try {
+      const snap = await getDocs(collection(db, "predictions"));
+      allPredictions = {};
+      snap.forEach(d => allPredictions[d.id] = d.data());
+    } catch(e) { console.warn("Predictions load failed", e); }
+  }
+
+  // ══════════════════════════════════════
+  // SCORING ENGINE
+  // ══════════════════════════════════════
+  function calcScore(pred) {
+    let total = 0;
+    const breakdown = [];
+
+    // Phase 1 — Groupes
+    if (pred.phase1 && gameConfig.groupResults) {
+      for (const [grp, realOrder] of Object.entries(gameConfig.groupResults)) {
+        const predOrder = pred.phase1.groups?.[grp];
+        if (!predOrder || !realOrder || realOrder.length < 2) continue;
+        let pts = 0;
+        // Position exacte
+        if (predOrder[0] === realOrder[0]) pts += 5;
+        else if (predOrder[0] === realOrder[1]) pts += 2; // qualifié mais mauvaise pos
+        if (predOrder[1] === realOrder[1]) pts += 5;
+        else if (predOrder[1] === realOrder[0]) pts += 2;
+        if (pts > 0) breakdown.push({ label: `Groupe ${grp}`, pts });
+        total += pts;
+      }
+    }
+
+    // Bonus
+    if (pred.phase1 && gameConfig.bonusResults) {
+      const b = gameConfig.bonusResults;
+      const pb = pred.phase1.bonus || {};
+      if (b.champion && pb.champion === b.champion) { total += 25; breakdown.push({ label: "🏆 Champion", pts: 25 }); }
+      if (b.finalist && pb.finalist === b.finalist) { total += 15; breakdown.push({ label: "🥈 Finaliste", pts: 15 }); }
+      if (b.scorer && pb.scorer && pb.scorer.trim().toLowerCase() === b.scorer.trim().toLowerCase()) {
+        total += 10; breakdown.push({ label: "👟 Buteur", pts: 10 });
+      }
+    }
+
+    // Phase 2 — Matchs
+    if (pred.phase2 && gameConfig.knockoutResults) {
+      for (const [matchId, real] of Object.entries(gameConfig.knockoutResults)) {
+        const predMatch = pred.phase2?.[matchId];
+        if (!predMatch || !real?.winner) continue;
+        const round = KNOCKOUT_ROUNDS.find(r => matchId.startsWith(r.id));
+        if (!round) continue;
+        if (predMatch.winner === real.winner) {
+          // Check exact score first
+          if (predMatch.homeScore !== undefined && predMatch.awayScore !== undefined &&
+              String(predMatch.homeScore) === String(real.homeScore) &&
+              String(predMatch.awayScore) === String(real.awayScore)) {
+            total += round.ptExact;
+            breakdown.push({ label: `${round.label} (score exact)`, pts: round.ptExact });
+          } else {
+            total += round.ptWin;
+            breakdown.push({ label: `${round.label} (bon gagnant)`, pts: round.ptWin });
+          }
+        }
+      }
+    }
+
+    return { total, breakdown };
+  }
+
+  // ══════════════════════════════════════
+  // LEADERBOARD
+  // ══════════════════════════════════════
+  window.loadLeaderboard = async () => {
+    document.getElementById('leaderboard-container').innerHTML = '<div class="loading">Chargement...</div>';
+    await loadConfig();
+    await loadAllPredictions();
+
+    const scores = Object.entries(allPredictions).map(([name, pred]) => {
+      const { total, breakdown } = calcScore(pred);
+      return { name, total, breakdown };
+    }).sort((a, b) => b.total - a.total);
+
+    if (scores.length === 0) {
+      document.getElementById('leaderboard-container').innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🏆</div>
+          <p>Aucun participant pour l'instant.<br>Sois le premier à entrer tes prédictions !</p>
+        </div>`;
+      return;
+    }
+
+    const medals = ['🥇','🥈','🥉'];
+    let html = `<table class="leaderboard">
+      <thead><tr>
+        <th>#</th>
+        <th>Participant</th>
+        <th>Points</th>
+        <th></th>
+      </tr></thead><tbody>`;
+
+    scores.forEach((s, i) => {
+      const rankClass = i < 3 ? `rank-${i+1}` : '';
+      html += `<tr>
+        <td class="rank ${rankClass}">${medals[i] || (i+1)}</td>
+        <td><strong>${escHtml(s.name)}</strong></td>
+        <td><span class="score-badge">${s.total}</span><span class="pts-label">pts</span></td>
+        <td><button class="btn btn-sm btn-primary" onclick='showBreakdown("${escHtml(s.name)}", ${JSON.stringify(s.breakdown)})'>Détail</button></td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('leaderboard-container').innerHTML = html;
+  };
+
+  window.showBreakdown = (name, breakdown) => {
+    document.getElementById('modal-title').textContent = '📊 ' + name;
+    let html = '';
+    if (!breakdown.length) {
+      html = '<p style="color:var(--gray)">Aucun point encore comptabilisé.</p>';
+    } else {
+      const total = breakdown.reduce((s, b) => s + b.pts, 0);
+      breakdown.forEach(b => {
+        html += `<div class="breakdown-row"><span>${escHtml(b.label)}</span><span class="pts-positive">+${b.pts} pts</span></div>`;
+      });
+      html += `<div style="margin-top:1rem;font-family:'Bebas Neue',cursive;font-size:1.4rem;color:var(--gold)">Total : ${total} pts</div>`;
+    }
+    document.getElementById('modal-content').innerHTML = html;
+    document.getElementById('modal').style.display = 'flex';
+  };
+
+  // ══════════════════════════════════════
+  // PLAYER LOGIN
+  // ══════════════════════════════════════
+  window.loginPlayer = async () => {
+    const name = document.getElementById('player-name').value.trim();
+    const pin = document.getElementById('player-pin').value.trim();
+    if (!name || pin.length < 4) { showToast("Entre ton nom et un PIN de 4 chiffres.", true); return; }
+
+    await loadConfig();
+
+    // Load or create player
+    try {
+      const snap = await getDoc(doc(db, "predictions", name));
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data._pin !== pin) { showToast("PIN incorrect.", true); return; }
+      }
+      // PIN ok or new player
+      currentPlayer = { name, pin };
+      document.getElementById('player-id-card').style.display = 'none';
+      renderPhase1();
+      renderPhase2();
+    } catch(e) {
+      showToast("Erreur de connexion Firebase. Vérifie ta config.", true);
+      console.error(e);
+    }
+  };
+
+  // ══════════════════════════════════════
+  // TEAM LOGOS
+  // ══════════════════════════════════════
+  const BASE = "https://cdn.prod.website-files.com/68f550992570ca0322737dc2/";
+  const TEAM_LOGOS = {
+    "Mexique":           BASE + "6a0b39fa921e692c7885a3a5_68fa02ee37f495f860481404_mexico-national-team-footballlogos-org.png",
+    "Afrique du Sud":    BASE + "6a0b39f717d2d9b8868d47d7_68fd1ff449702964723a7890_south-africa-national-team-footballlogos-org.png",
+    "Corée du Sud":      BASE + "6a0b3a18adae7bad8cb6e423_68fa0855071867dd20c531f3_south-korea-national-team-footballlogos-org.png",
+    "Tchéquie":          BASE + "6a0b3a124f9b12d3899cdf35_68f9fefa92aa92766cfafa43_czechia-national-team-footballlogos-org.png",
+    "Canada":            BASE + "6a0b3a0995b66650d7655aba_68f9fcae7c3a768d2112f7cc_canada-national-team-footballlogos-org.png",
+    "Bosnie-Herzégovine":BASE + "68fd1a0bb96a229b28eff9ca_bosnia-and-herzegovina-footballlogos-org.svg",
+    "Qatar":             BASE + "68fd1f8e1cc7aebc6fcfff34_qatar-national-team-footballlogos-org.svg",
+    "Suisse":            BASE + "6a0b3a0d052b7e092df739cf_68fa0904f28db91037150be9_swiss-national-team-footballlogos-org.png",
+    "Brésil":            BASE + "6a0b3a07dd70012891100817_68f9fc74eac3dc471d42c1f1_brazil-national-team-footballlogos-org.png",
+    "Maroc":             BASE + "6a0b39f3ff709486e36ba903_68fa032284d7ebc8adde9b0e_morocco-national-team-footballlogos-org.png",
+    "Haïti":             BASE + "6a0f4c6c910c48d9bace182a_692869cd3f30b984d69b7f75_haiti-national-team-footylogos.png",
+    "Écosse":            BASE + "6a0b3a0e29b605309fb7f47b_68fa07134a7663c774887b1a_scotland-national-team-footballlogos-org.png",
+    "USA":               BASE + "6a0b39f54269adc0c7a000c3_68fa0a65e8dbfe6ba33cb5e6_usa-national-team-footballlogos-org.png",
+    "Paraguay":          BASE + "6a0b3a15c8ff2f7f7f02602c_68fa042c2750779cccf807b4_paraguay-national-team-footballlogos-org.png",
+    "Australie":         BASE + "6a0b3a10e35263d68e6f439e_69fa8abfc42edca0f730781a_australia-national-team-footylogos.png",
+    "Turquie":           BASE + "6a0b3a199844733813bb5b41_68fa09923df7f921ed9a86ef_turkey-national-team-footballlogos-org.png",
+    "Allemagne":         BASE + "6a0b3a134ff2b16d2ff2c420_68fa00ee54de0cacbdff9b16_germany-national-team-footballlogos-org.png",
+    "Curaçao":           BASE + "6a0b3a0c450ecf35a44ec35a_690b58788ae9e26e532abfdf_curacao-national-team-footballlogos-org.png",
+    "Côte d'Ivoire":     BASE + "6a0b3a0a63e7e11f6ecf95f4_68f9fe0f5e31af81b7ceb973_cote-d-ivoire-national-team-footballlogos-org.png",
+    "Équateur":          BASE + "6a0b3a03e8cfc8f978c35242_68f9ffb9e5f5a02e2ddd6c89_ecuador-national-team-footballlogos-org.png",
+    "Pays-Bas":          BASE + "6a0b3a15786b121c0b7b60cc_68f9ff890403a59958f26579_netherlands-dutch-national-team-footballlogos-org.png",
+    "Japon":             BASE + "6a0b3a179bc2e28bf73ecd09_68fa02b609c96c8ed3c2cdf6_japan-national-team-footballlogos-org.png",
+    "Suède":             BASE + "6a0b39f2940ca8a6d33ef41f_68fa08ce61f58c56e735629c_sweden-national-team-footballlogos-org.png",
+    "Tunisie":           BASE + "6a0b39fc9b5ae9ed29ad6646_68fa093b578f3b5329f80833_tunisia-national-team-footballlogos-org.png",
+    "Belgique":          BASE + "6a0b3a0fe2c051dd81874aac_68f9fc44d95277458c187c4f_belgium-national-team-footballlogos-org.png",
+    "Égypte":            BASE + "6a0b39fd094c95a818967d17_68f9ffff9f0a363d783fca07_egypt-national-team-footballlogos-org.png",
+    "Iran":              BASE + "6a0b39f9be2380ec23ca8496_68fa01dc9c4cd3255b45967d_iran-national-team-footballlogos-org.png",
+    "Nouvelle-Zélande":  BASE + "6a0b39ff967f6d274aeb4e8b_68fa67ce6d8bf137ee675702_new-zealand-national-team-footballlogos-org.png",
+    "Espagne":           BASE + "6a0b3a1aa6db0dbe288b67f3_68fa08931b5e1697f8930e74_spain-national-team-footballlogos-org.png",
+    "Cap-Vert":          BASE + "6a0b3a04f8e4dbd2d7560e3f_68fd1a7a7cceddc21192dd2a_cabo-verde-footballlogos-org.png",
+    "Arabie Saoudite":   BASE + "6a0b39f8751bc84c4be421cf_68fd1fc871c2e4977d6345f9_saudi-arabia-national-team-footballlogos-org.png",
+    "Uruguay":           BASE + "6a0b3a06d17821a2db9019ea_68fa0a1577c6612bb1154a07_uruguay-national-team-footballlogos-org.png",
+    "France":            BASE + "6a0b39fa921e692c7885a3a5_68fa00af9b52a99bf3ce88b8_france-national-team-footballlogos-org.png",
+    "Sénégal":           BASE + "6a0b3a052fcac044e973b7e1_68fa07554408d744a38f143f_senegal-national-team-footballlogos-org.png",
+    "Norvège":           BASE + "68fa03b401a24ac6badeaa5c_norway-national-team-footballlogos-org.svg",
+    "Irak":              BASE + "6a0b3a08c18986f46d9cbb5a_68fd1ce7c48c6f7c6b9f2d9f_iraq-footballlogos-org.png",
+    "Argentine":         BASE + "6a1048bb2071e9deee459c12_6a104445459be40714bd9774_argentina-national-team-footylogos.png",
+    "Algérie":           BASE + "6a0b39fec61707555515b17e_68f9faa3abd65d5f6209b2cd_algeria-national-team-footballlogos-org.png",
+    "Autriche":          BASE + "68f9fc172630205d3271b9f1_austria-national-team-footballlogos-org.svg",
+    "Jordanie":          BASE + "6a0b39fac9c45208a31ce544_68fd1d515ce3de4f3d2e23b0_jordan-footballlogos-org.png",
+    "Portugal":          BASE + "6a0b3a0095b66650d7655aba_68fa6b30ffde0dbd282357ab_portugal-national-team-footballlogos-org.png",
+    "RD Congo":          BASE + "68fd1b5eda26ecde0ae4f1eb_dr-congo-footballlogos-org.svg",
+    "Ouzbékistan":       BASE + "6a0b39fc12418491a747e862_68fd208e9bfd4ed3a9b30b6f_uzbekistan-national-team-footballlogos-org.png",
+    "Colombie":          BASE + "68f9fd84ab47946a360b482d_colombia-national-team-footballlogos-org.svg",
+    "Angleterre":        BASE + "6a0b39f4f81c2d9713bb1958_68fa004f9bad274585f92fd4_england-national-team-footballlogos-org.png",
+    "Croatie":           BASE + "68f9fe732030ba1891c2c1e7_croatia-national-team-footballlogos-org.svg",
+    "Ghana":             BASE + "6a176f4197f7299d29c76a61_6a121b9d1a9da04ec878bb21_ghana-national-team-footylogos.png",
+    "Panama":            BASE + "68fa03e45d0722bd9f321589_panama-national-team-footballlogos-org.svg"
+  };
+
+  function teamLogo(name) {
+    return TEAM_LOGOS[name] || '';
+  }
+
+  function makeChip(teamName, locked) {
+    const logo = teamLogo(teamName);
+    const div = document.createElement('div');
+    div.className = 'team-chip' + (locked ? ' locked-chip' : '');
+    div.draggable = !locked;
+    div.dataset.team = teamName;
+    div.innerHTML = `${logo ? `<img src="${logo}" alt="${teamName}" onerror="this.style.display='none'"/>` : ''}
+      <span class="chip-name">${teamName}</span>`;
+    if (!locked) {
+      div.addEventListener('dragstart', onDragStart);
+      div.addEventListener('dragend', onDragEnd);
+      div.addEventListener('touchstart', onTouchStart, { passive: true });
+      div.addEventListener('touchmove', onTouchMove, { passive: false });
+      div.addEventListener('touchend', onTouchEnd);
+    }
+    return div;
+  }
+
+  // ── Drag & Drop state ──
+  let draggedChip = null;
+  let dragSourceZone = null;
+  // Touch drag state
+  let touchChip = null, touchClone = null, touchOffX = 0, touchOffY = 0;
+
+  function onDragStart(e) {
+    draggedChip = e.currentTarget;
+    dragSourceZone = draggedChip.parentElement;
+    setTimeout(() => draggedChip.classList.add('dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function onDragEnd() {
+    if (draggedChip) draggedChip.classList.remove('dragging');
+    draggedChip = null; dragSourceZone = null;
+    document.querySelectorAll('.drag-zone').forEach(z => z.classList.remove('over'));
+  }
+  function onDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('over'); }
+  function onDragLeave(e) { e.currentTarget.classList.remove('over'); }
+  function onDrop(e) {
+    e.preventDefault();
+    const zone = e.currentTarget;
+    zone.classList.remove('over');
+    if (!draggedChip) return;
+    const zoneGroup = zone.dataset.group;
+    const isRanked = zone.dataset.ranked === 'true';
+
+    // Swap if target zone already has a chip from same group
+    const existing = zone.querySelector('.team-chip');
+    if (existing && dragSourceZone) {
+      dragSourceZone.appendChild(existing);
+    }
+    zone.appendChild(draggedChip);
+    zone.classList.add('ranked');
+  }
+
+  // ── Touch drag ──
+  function onTouchStart(e) {
+    touchChip = e.currentTarget;
+    const t = e.touches[0];
+    const rect = touchChip.getBoundingClientRect();
+    touchOffX = t.clientX - rect.left;
+    touchOffY = t.clientY - rect.top;
+    touchClone = touchChip.cloneNode(true);
+    touchClone.style.cssText = `position:fixed;pointer-events:none;z-index:9999;opacity:0.85;width:${rect.width}px;`;
+    document.body.appendChild(touchClone);
+    touchChip.classList.add('dragging');
+  }
+  function onTouchMove(e) {
+    e.preventDefault();
+    if (!touchClone) return;
+    const t = e.touches[0];
+    touchClone.style.left = (t.clientX - touchOffX) + 'px';
+    touchClone.style.top  = (t.clientY - touchOffY) + 'px';
+    // Highlight zone under finger
+    touchClone.style.display = 'none';
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    touchClone.style.display = '';
+    document.querySelectorAll('.drag-zone').forEach(z => z.classList.remove('over'));
+    const zone = el?.closest('.drag-zone');
+    if (zone) zone.classList.add('over');
+  }
+  function onTouchEnd(e) {
+    if (!touchClone) return;
+    const t = e.changedTouches[0];
+    touchClone.remove(); touchClone = null;
+    if (touchChip) touchChip.classList.remove('dragging');
+    touchClone = null;
+    document.querySelectorAll('.drag-zone').forEach(z => z.classList.remove('over'));
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    const zone = el?.closest('.drag-zone');
+    if (zone && touchChip) {
+      const existing = zone.querySelector('.team-chip');
+      const sourceZone = touchChip.parentElement;
+      if (existing && sourceZone) sourceZone.appendChild(existing);
+      zone.appendChild(touchChip);
+      zone.classList.add('ranked');
+    }
+    touchChip = null;
+  }
+
+  // ══════════════════════════════════════
+  // PHASE 1 RENDER
+  // ══════════════════════════════════════
+  async function renderPhase1() {
+    const block = document.getElementById('phase1-block');
+    block.style.display = 'block';
+    const badge = document.getElementById('phase1-badge');
+    const locked = gameConfig.phase1 === 'locked';
+    badge.textContent = locked ? 'Verrouillé' : 'Ouvert';
+    badge.className = 'phase-badge' + (locked ? ' locked' : '');
+
+    let existing = {};
+    try {
+      const snap = await getDoc(doc(db, "predictions", currentPlayer.name));
+      if (snap.exists()) existing = snap.data().phase1 || {};
+    } catch(e) {}
+
+    // Populate bonus selects
+    ['bonus-champion','bonus-finalist'].forEach(id => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '<option value="">-- Choisir --</option>';
+      ALL_TEAMS.forEach(t => {
+        const logo = teamLogo(t);
+        sel.innerHTML += `<option value="${t}">${t}</option>`;
+      });
+    });
+    if (existing.bonus) {
+      document.getElementById('bonus-champion').value = existing.bonus.champion || '';
+      document.getElementById('bonus-finalist').value = existing.bonus.finalist || '';
+      document.getElementById('bonus-scorer').value = existing.bonus.scorer || '';
+    }
+
+    // Render drag & drop groups
+    const container = document.getElementById('groups-predictions');
+    container.innerHTML = '';
+
+    for (const [grp, teams] of Object.entries(GROUPS)) {
+      const savedOrder = existing.groups?.[grp] || [];
+      const card = document.createElement('div');
+      card.className = 'group-card';
+      card.innerHTML = `<h4>Groupe ${grp}</h4>
+        <p class="drag-hint">${locked ? '🔒 Prédictions verrouillées' : '☰ Glisse les équipes pour les classer 1 à 4'}</p>
+        <div class="drag-columns">
+          <div>
+            <div class="drag-col-label">📦 Disponibles</div>
+            <div class="drag-zone${locked?' locked-zone':''}" id="pool-${grp}" data-group="${grp}" data-ranked="false"></div>
+          </div>
+          <div>
+            <div class="drag-col-label">🏆 Ton classement</div>
+            <div class="drag-zone ranked${locked?' locked-zone':''}" id="ranked-${grp}" data-group="${grp}" data-ranked="true"></div>
+          </div>
+        </div>`;
+      container.appendChild(card);
+
+      const poolZone   = card.querySelector(`#pool-${grp}`);
+      const rankedZone = card.querySelector(`#ranked-${grp}`);
+
+      // Wire up drop events
+      [poolZone, rankedZone].forEach(zone => {
+        zone.addEventListener('dragover', onDragOver);
+        zone.addEventListener('dragleave', onDragLeave);
+        zone.addEventListener('drop', onDrop);
+      });
+
+      // Sort teams: saved order first, then remaining
+      const orderedSaved = savedOrder.filter(t => teams.includes(t));
+      const remaining = teams.filter(t => !orderedSaved.includes(t));
+
+      // Put saved into ranked zone
+      orderedSaved.forEach(t => rankedZone.appendChild(makeChip(t, locked)));
+      // Put remaining in pool
+      remaining.forEach(t => poolZone.appendChild(makeChip(t, locked)));
+    }
+  }
+
+  window.savePhase1 = async () => {
+    if (!currentPlayer) return;
+    if (gameConfig.phase1 === 'locked') { showToast("Phase 1 verrouillée par l'admin.", true); return; }
+
+    const groups = {};
+    for (const grp of Object.keys(GROUPS)) {
+      const rankedZone = document.getElementById(`ranked-${grp}`);
+      const chips = rankedZone ? [...rankedZone.querySelectorAll('.team-chip')].map(c => c.dataset.team) : [];
+      groups[grp] = chips;
+    }
+    const bonus = {
+      champion: document.getElementById('bonus-champion').value,
+      finalist: document.getElementById('bonus-finalist').value,
+      scorer: document.getElementById('bonus-scorer').value.trim()
+    };
+
+    try {
+      await setDoc(doc(db, "predictions", currentPlayer.name), {
+        _pin: currentPlayer.pin,
+        phase1: { groups, bonus }
+      }, { merge: true });
+      showToast("✅ Phase 1 sauvegardée !");
+    } catch(e) { showToast("Erreur de sauvegarde.", true); console.error(e); }
+  };
+
+  // ══════════════════════════════════════
+  // PHASE 2 RENDER
+  // ══════════════════════════════════════
+  async function renderPhase2() {
+    const block = document.getElementById('phase2-block');
+    const matches = gameConfig.knockoutMatches || [];
+    if (!matches.length) { block.style.display = 'none'; return; }
+    block.style.display = 'block';
+
+    const locked = gameConfig.phase2 === 'locked';
+    const badge = document.getElementById('phase2-badge');
+    badge.textContent = locked ? 'Verrouillé' : 'Ouvert';
+    badge.className = 'phase-badge' + (locked ? ' locked' : '');
+
+    let existing = {};
+    try {
+      const snap = await getDoc(doc(db, "predictions", currentPlayer.name));
+      if (snap.exists()) existing = snap.data().phase2 || {};
+    } catch(e) {}
+
+    const container = document.getElementById('knockout-predictions');
+    container.innerHTML = '';
+
+    KNOCKOUT_ROUNDS.forEach(round => {
+      const roundMatches = matches.filter(m => m.round === round.id);
+      if (!roundMatches.length) return;
+
+      const header = document.createElement('h3');
+      header.style.cssText = 'margin:1.2rem 0 0.5rem;color:var(--gold-light);';
+      header.textContent = round.label;
+      container.appendChild(header);
+
+      roundMatches.forEach(m => {
+        const saved = existing[m.id] || {};
+        const div = document.createElement('div');
+        div.className = 'match-row';
+        div.innerHTML = `
+          <span class="match-teams">${m.home} vs ${m.away}</span>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <div class="form-group" style="min-width:unset">
+              <label style="white-space:nowrap">Gagnant (+${round.ptWin}pts)</label>
+              <select id="pred-winner-${m.id}" ${locked?'disabled':''}>
+                <option value="">--</option>
+                <option value="${m.home}" ${saved.winner===m.home?'selected':''}>${m.home}</option>
+                <option value="${m.away}" ${saved.winner===m.away?'selected':''}>${m.away}</option>
+              </select>
+            </div>
+            <div class="form-group" style="min-width:unset">
+              <label style="white-space:nowrap">Score exact (+${round.ptExact}pts)</label>
+              <div class="score-inputs">
+                <input type="number" id="pred-home-${m.id}" min="0" max="20" placeholder="0" style="width:52px" value="${saved.homeScore??''}" ${locked?'disabled':''}/>
+                <span class="score-sep">-</span>
+                <input type="number" id="pred-away-${m.id}" min="0" max="20" placeholder="0" style="width:52px" value="${saved.awayScore??''}" ${locked?'disabled':''}/>
+              </div>
+            </div>
+          </div>`;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  window.savePhase2 = async () => {
+    if (!currentPlayer) return;
+    if (gameConfig.phase2 === 'locked') { showToast("Phase 2 verrouillée par l'admin.", true); return; }
+    const matches = gameConfig.knockoutMatches || [];
+    const phase2 = {};
+    matches.forEach(m => {
+      phase2[m.id] = {
+        winner: document.getElementById(`pred-winner-${m.id}`)?.value || '',
+        homeScore: document.getElementById(`pred-home-${m.id}`)?.value,
+        awayScore: document.getElementById(`pred-away-${m.id}`)?.value
+      };
+    });
+    try {
+      await setDoc(doc(db, "predictions", currentPlayer.name), { _pin: currentPlayer.pin, phase2 }, { merge: true });
+      showToast("✅ Phase 2 sauvegardée !");
+    } catch(e) { showToast("Erreur de sauvegarde.", true); }
+  };
+
+  // ══════════════════════════════════════
+  // RESULTS TAB
+  // ══════════════════════════════════════
+  async function renderResults() {
+    await loadConfig();
+    const container = document.getElementById('results-list');
+    let html = '';
+
+    // Group results
+    if (Object.keys(gameConfig.groupResults || {}).length) {
+      html += `<div class="card"><h2>Résultats des groupes</h2><div class="groups-grid">`;
+      for (const [grp, teams] of Object.entries(gameConfig.groupResults)) {
+        html += `<div class="group-card"><h4>Groupe ${grp}</h4>`;
+        teams.forEach((t,i) => html += `<div class="team-slot"><span class="slot-num">${i+1}</span>${t}</div>`);
+        html += `</div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    // Bonus results
+    const br = gameConfig.bonusResults || {};
+    if (br.champion || br.finalist || br.scorer) {
+      html += `<div class="card"><h2>Bonus</h2>`;
+      if (br.champion) html += `<div class="breakdown-row"><span>🏆 Champion</span><strong>${br.champion}</strong></div>`;
+      if (br.finalist) html += `<div class="breakdown-row"><span>🥈 Finaliste</span><strong>${br.finalist}</strong></div>`;
+      if (br.scorer) html += `<div class="breakdown-row"><span>👟 Meilleur buteur</span><strong>${br.scorer}</strong></div>`;
+      html += `</div>`;
+    }
+
+    // Knockout results
+    const kr = gameConfig.knockoutResults || {};
+    if (Object.keys(kr).length) {
+      html += `<div class="card"><h2>Résultats des matchs</h2>`;
+      KNOCKOUT_ROUNDS.forEach(round => {
+        const roundResults = Object.entries(kr).filter(([id]) => id.startsWith(round.id));
+        if (!roundResults.length) return;
+        html += `<h3 style="margin:1rem 0 0.5rem;color:var(--gold-light)">${round.label}</h3>`;
+        const matches = gameConfig.knockoutMatches || [];
+        roundResults.forEach(([id, res]) => {
+          const m = matches.find(m => m.id === id);
+          if (!m) return;
+          html += `<div class="match-row">
+            <span class="match-teams">${m.home} vs ${m.away}</span>
+            <strong style="color:var(--gold)">${res.winner || '?'}</strong>
+            <span style="color:var(--gray)">${res.homeScore ?? '?'}-${res.awayScore ?? '?'}</span>
+          </div>`;
+        });
+      });
+      html += `</div>`;
+    }
+
+    if (!html) html = `<div class="empty-state"><div class="icon">⏳</div><p>Aucun résultat entré par l'admin pour l'instant.</p></div>`;
+    container.innerHTML = html;
+  }
+
+  // ══════════════════════════════════════
+  // ADMIN
+  // ══════════════════════════════════════
+  window.adminLogin = () => {
+    const pass = document.getElementById('admin-pass').value;
+    if (pass === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.getElementById('admin-login-card').style.display = 'none';
+      document.getElementById('admin-panel').classList.add('visible');
+      renderAdmin();
+    } else {
+      showToast("Mot de passe incorrect.", true);
+    }
+  };
+
+  window.adminLogout = () => {
+    isAdmin = false;
+    document.getElementById('admin-login-card').style.display = 'block';
+    document.getElementById('admin-panel').classList.remove('visible');
+    document.getElementById('admin-pass').value = '';
+  };
+
+  async function renderAdmin() {
+    await loadConfig();
+    document.getElementById('admin-phase1-status').value = gameConfig.phase1 || 'open';
+    document.getElementById('admin-phase2-status').value = gameConfig.phase2 || 'locked';
+
+    // Bonus selects
+    ['admin-bonus-champion','admin-bonus-finalist'].forEach(id => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '<option value="">-- Choisir --</option>';
+      ALL_TEAMS.forEach(t => sel.innerHTML += `<option value="${t}">${t}</option>`);
+    });
+    const br = gameConfig.bonusResults || {};
+    document.getElementById('admin-bonus-champion').value = br.champion || '';
+    document.getElementById('admin-bonus-finalist').value = br.finalist || '';
+    document.getElementById('admin-bonus-scorer').value = br.scorer || '';
+
+    renderAdminGroupResults();
+    renderAdminKnockoutSetup();
+    renderAdminKnockoutResults();
+  }
+
+  function renderAdminGroupResults() {
+    const container = document.getElementById('admin-groups-results');
+    container.innerHTML = '';
+    for (const [grp, teams] of Object.entries(GROUPS)) {
+      const saved = gameConfig.groupResults?.[grp] || ['',''];
+      const div = document.createElement('div');
+      div.className = 'group-card';
+      div.innerHTML = `<h4>Groupe ${grp}</h4>`;
+      [0,1].forEach(pos => {
+        const sel = document.createElement('select');
+        sel.id = `admin-grp-${grp}-${pos}`;
+        sel.innerHTML = `<option value="">${pos===0?'1er qualifié':'2e qualifié'}</option>`;
+        teams.forEach(t => sel.innerHTML += `<option value="${t}" ${saved[pos]===t?'selected':''}>${t}</option>`);
+        const row = document.createElement('div');
+        row.className = 'team-slot';
+        row.innerHTML = `<span class="slot-num">${pos+1}</span>`;
+        row.appendChild(sel);
+        div.appendChild(row);
+      });
+      container.appendChild(div);
+    }
+  }
+
+  function renderAdminKnockoutSetup() {
+    const container = document.getElementById('admin-knockout-setup');
+    container.innerHTML = '';
+    const matchCounts = { r16: 16, qf: 8, sf: 4, f: 1 };
+    const saved = gameConfig.knockoutMatches || [];
+
+    KNOCKOUT_ROUNDS.forEach(round => {
+      const count = matchCounts[round.id];
+      const header = document.createElement('h3');
+      header.style.cssText = 'margin:1rem 0 0.5rem;color:var(--gold-light)';
+      header.textContent = round.label;
+      container.appendChild(header);
+
+      for (let i = 0; i < count; i++) {
+        const id = `${round.id}_${i+1}`;
+        const existing = saved.find(m => m.id === id) || {};
+        const div = document.createElement('div');
+        div.className = 'match-row';
+        div.innerHTML = `
+          <span style="font-size:0.8rem;color:var(--gray);min-width:30px">${i+1}</span>
+          <input type="text" id="km-home-${id}" placeholder="Équipe A" value="${existing.home||''}" style="flex:1"/>
+          <span class="score-sep">vs</span>
+          <input type="text" id="km-away-${id}" placeholder="Équipe B" value="${existing.away||''}" style="flex:1"/>`;
+        container.appendChild(div);
+      }
+    });
+  }
+
+  function renderAdminKnockoutResults() {
+    const container = document.getElementById('admin-knockout-results');
+    container.innerHTML = '';
+    const matches = gameConfig.knockoutMatches || [];
+    if (!matches.length) { container.innerHTML = '<p style="color:var(--gray);font-size:0.85rem">Définis d\'abord les matchs ci-dessous.</p>'; return; }
+
+    KNOCKOUT_ROUNDS.forEach(round => {
+      const roundMatches = matches.filter(m => m.round === round.id);
+      if (!roundMatches.length) return;
+      const header = document.createElement('h3');
+      header.style.cssText = 'margin:1rem 0 0.5rem;color:var(--gold-light)';
+      header.textContent = round.label;
+      container.appendChild(header);
+
+      roundMatches.forEach(m => {
+        const saved = gameConfig.knockoutResults?.[m.id] || {};
+        const div = document.createElement('div');
+        div.className = 'match-row';
+        div.innerHTML = `
+          <span class="match-teams">${m.home} vs ${m.away}</span>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+            <div class="form-group" style="min-width:unset">
+              <label>Gagnant</label>
+              <select id="res-winner-${m.id}">
+                <option value="">--</option>
+                <option value="${m.home}" ${saved.winner===m.home?'selected':''}>${m.home}</option>
+                <option value="${m.away}" ${saved.winner===m.away?'selected':''}>${m.away}</option>
+              </select>
+            </div>
+            <div class="form-group" style="min-width:unset">
+              <label>Score</label>
+              <div class="score-inputs">
+                <input type="number" id="res-home-${m.id}" min="0" max="20" placeholder="0" style="width:52px" value="${saved.homeScore??''}"/>
+                <span class="score-sep">-</span>
+                <input type="number" id="res-away-${m.id}" min="0" max="20" placeholder="0" style="width:52px" value="${saved.awayScore??''}"/>
+              </div>
+            </div>
+          </div>`;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  window.savePhaseConfig = async () => {
+    gameConfig.phase1 = document.getElementById('admin-phase1-status').value;
+    gameConfig.phase2 = document.getElementById('admin-phase2-status').value;
+    try {
+      await setDoc(doc(db, "config", "game"), { phase1: gameConfig.phase1, phase2: gameConfig.phase2 }, { merge: true });
+      showToast("✅ Config des phases sauvegardée !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
+  window.saveGroupResults = async () => {
+    const groupResults = {};
+    for (const grp of Object.keys(GROUPS)) {
+      groupResults[grp] = [
+        document.getElementById(`admin-grp-${grp}-0`)?.value || '',
+        document.getElementById(`admin-grp-${grp}-1`)?.value || ''
+      ];
+    }
+    try {
+      await setDoc(doc(db, "config", "game"), { groupResults }, { merge: true });
+      gameConfig.groupResults = groupResults;
+      showToast("✅ Résultats des groupes sauvegardés !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
+  window.saveBonusResults = async () => {
+    const bonusResults = {
+      champion: document.getElementById('admin-bonus-champion').value,
+      finalist: document.getElementById('admin-bonus-finalist').value,
+      scorer: document.getElementById('admin-bonus-scorer').value.trim()
+    };
+    try {
+      await setDoc(doc(db, "config", "game"), { bonusResults }, { merge: true });
+      gameConfig.bonusResults = bonusResults;
+      showToast("✅ Bonus sauvegardés !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
+  window.saveKnockoutMatches = async () => {
+    const matchCounts = { r16: 16, qf: 8, sf: 4, f: 1 };
+    const knockoutMatches = [];
+    KNOCKOUT_ROUNDS.forEach(round => {
+      for (let i = 0; i < matchCounts[round.id]; i++) {
+        const id = `${round.id}_${i+1}`;
+        const home = document.getElementById(`km-home-${id}`)?.value.trim();
+        const away = document.getElementById(`km-away-${id}`)?.value.trim();
+        if (home && away) knockoutMatches.push({ id, round: round.id, home, away });
+      }
+    });
+    try {
+      await setDoc(doc(db, "config", "game"), { knockoutMatches }, { merge: true });
+      gameConfig.knockoutMatches = knockoutMatches;
+      renderAdminKnockoutResults();
+      showToast("✅ Matchs sauvegardés !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
+  window.saveKnockoutResults = async () => {
+    const matches = gameConfig.knockoutMatches || [];
+    const knockoutResults = {};
+    matches.forEach(m => {
+      knockoutResults[m.id] = {
+        winner: document.getElementById(`res-winner-${m.id}`)?.value || '',
+        homeScore: document.getElementById(`res-home-${m.id}`)?.value,
+        awayScore: document.getElementById(`res-away-${m.id}`)?.value
+      };
+    });
+    try {
+      await setDoc(doc(db, "config", "game"), { knockoutResults }, { merge: true });
+      gameConfig.knockoutResults = knockoutResults;
+      showToast("✅ Résultats des matchs sauvegardés !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
+  // ══════════════════════════════════════
+  // HELPERS
+  // ══════════════════════════════════════
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ══════════════════════════════════════
+  // INIT
+  // ══════════════════════════════════════
+  loadLeaderboard();
+</script>
+</body>
+</html>
