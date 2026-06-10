@@ -805,6 +805,8 @@
     });
     html += '</tbody></table>';
     document.getElementById('leaderboard-container').innerHTML = html;
+
+    loadExternalMatches();
   };
 
   window.showBreakdown = (name, breakdown) => {
