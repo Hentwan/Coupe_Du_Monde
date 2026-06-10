@@ -1522,6 +1522,71 @@ window.loadExternalMatches = async () => {
   // ══════════════════════════════════════
   // INIT
   // ══════════════════════════════════════
+  // ══════════════════════════════════════
+  // FOOTBALL-DATA.ORG — Matchs à venir & Derniers résultats
+  // ══════════════════════════════════════
+  const FD_API_KEY = 'e9f15db8ec4a40d7a0051768a0b04e42';
+  const FD_COMPETITION = 'WC'; // Code Coupe du Monde FIFA
+  
+  async function fetchMatches() {
+    // Matchs à venir (statut SCHEDULED ou TIMED)
+    try {
+      const res = await fetch(
+        `https://api.football-data.org/v4/competitions/${FD_COMPETITION}/matches?status=SCHEDULED`,
+        { headers: { 'X-Auth-Token': FD_API_KEY } }
+      );
+      const data = await res.json();
+      const upcoming = (data.matches || []).slice(0, 8);
+      const container = document.getElementById('upcoming-matches');
+      if (!upcoming.length) {
+        container.innerHTML = '<p style="color:var(--gray);font-size:0.85rem;padding:0.5rem">Aucun match à venir trouvé.</p>';
+      } else {
+        container.innerHTML = upcoming.map(m => {
+          const date = new Date(m.utcDate);
+          const dateStr = date.toLocaleDateString('fr-CA', { weekday:'short', month:'short', day:'numeric' });
+          const timeStr = date.toLocaleTimeString('fr-CA', { hour:'2-digit', minute:'2-digit' });
+          return `<div class="match-row">
+            <span class="match-round">${dateStr}<br/>${timeStr}</span>
+            <span class="match-teams">${m.homeTeam.name} <span style="color:var(--gray)">vs</span> ${m.awayTeam.name}</span>
+            <span style="font-size:0.78rem;color:var(--gray)">${m.stage?.replace(/_/g,' ') || ''}</span>
+          </div>`;
+        }).join('');
+      }
+    } catch(e) {
+      document.getElementById('upcoming-matches').innerHTML = '<p style="color:var(--gray);font-size:0.85rem;padding:0.5rem">Erreur de chargement.</p>';
+    }
+  
+    // Derniers résultats (statut FINISHED)
+    try {
+      const res2 = await fetch(
+        `https://api.football-data.org/v4/competitions/${FD_COMPETITION}/matches?status=FINISHED`,
+        { headers: { 'X-Auth-Token': FD_API_KEY } }
+      );
+      const data2 = await res2.json();
+      const finished = (data2.matches || []).reverse().slice(0, 8);
+      const container2 = document.getElementById('latest-results');
+      if (!finished.length) {
+        container2.innerHTML = '<p style="color:var(--gray);font-size:0.85rem;padding:0.5rem">Aucun résultat disponible.</p>';
+      } else {
+        container2.innerHTML = finished.map(m => {
+          const date = new Date(m.utcDate);
+          const dateStr = date.toLocaleDateString('fr-CA', { month:'short', day:'numeric' });
+          const hs = m.score?.fullTime?.home ?? '?';
+          const as = m.score?.fullTime?.away ?? '?';
+          return `<div class="match-row">
+            <span class="match-round">${dateStr}</span>
+            <span class="match-teams">${m.homeTeam.name}</span>
+            <span style="font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold-light);min-width:52px;text-align:center">${hs} – ${as}</span>
+            <span class="match-teams" style="text-align:right">${m.awayTeam.name}</span>
+          </div>`;
+        }).join('');
+      }
+    } catch(e) {
+      document.getElementById('latest-results').innerHTML = '<p style="color:var(--gray);font-size:0.85rem;padding:0.5rem">Erreur de chargement.</p>';
+    }
+  }
+  
+  fetchMatches();
   loadLeaderboard();
 </script>
 </body>
