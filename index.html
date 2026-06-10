@@ -385,6 +385,48 @@
       cursor: pointer;
       line-height: 1;
     }
+    
+    /* BRACKET PHASE 2 */
+    .bracket-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+    }
+    
+    .bracket-round {
+      min-width: 180px;
+    }
+    
+    .bracket-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .bracket-match {
+      background: var(--green-deep);
+      border: 1px solid var(--green-mid);
+      padding: 8px;
+      border-radius: 4px;
+    }
+    
+    .bracket-match button {
+      width: 100%;
+      margin: 2px 0;
+      padding: 5px;
+      background: var(--green-field);
+      border: 1px solid var(--green-mid);
+      color: white;
+      cursor: pointer;
+    }
+    
+    .bracket-match button:hover {
+      border-color: var(--gold);
+    }
+    
+    .final-match {
+      border: 2px solid var(--gold);
+    }
     .close-btn:hover { color: var(--white); }
   </style>
 </head>
@@ -486,7 +528,76 @@
       <div class="card" style="margin-top:1.5rem;">
         <h2>Phase 2 — Matchs à élimination <span class="phase-badge" id="phase2-badge">Fermé</span></h2>
         <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1.5rem;">Prédit le gagnant et/ou le score exact pour chaque match.</p>
-        <div id="knockout-predictions"></div>
+        <div id="knockout-predictions" class="bracket-container">
+        
+          <!-- SEIZIEMES -->
+          <div class="bracket-round">
+            <h3>Seizièmes</h3>
+            <div class="bracket-col">
+              <!-- 16 matchs -->
+              <div class="bracket-match" id="r16_1"></div>
+              <div class="bracket-match" id="r16_2"></div>
+              <div class="bracket-match" id="r16_3"></div>
+              <div class="bracket-match" id="r16_4"></div>
+              <div class="bracket-match" id="r16_5"></div>
+              <div class="bracket-match" id="r16_6"></div>
+              <div class="bracket-match" id="r16_7"></div>
+              <div class="bracket-match" id="r16_8"></div>
+              <div class="bracket-match" id="r16_9"></div>
+              <div class="bracket-match" id="r16_10"></div>
+              <div class="bracket-match" id="r16_11"></div>
+              <div class="bracket-match" id="r16_12"></div>
+              <div class="bracket-match" id="r16_13"></div>
+              <div class="bracket-match" id="r16_14"></div>
+              <div class="bracket-match" id="r16_15"></div>
+              <div class="bracket-match" id="r16_16"></div>
+            </div>
+          </div>
+        
+          <!-- HUITIEMES -->
+          <div class="bracket-round">
+            <h3>8e</h3>
+            <div class="bracket-col">
+              <div class="bracket-match" id="qf_1"></div>
+              <div class="bracket-match" id="qf_2"></div>
+              <div class="bracket-match" id="qf_3"></div>
+              <div class="bracket-match" id="qf_4"></div>
+              <div class="bracket-match" id="qf_5"></div>
+              <div class="bracket-match" id="qf_6"></div>
+              <div class="bracket-match" id="qf_7"></div>
+              <div class="bracket-match" id="qf_8"></div>
+            </div>
+          </div>
+        
+          <!-- QUARTS -->
+          <div class="bracket-round">
+            <h3>Quarts</h3>
+            <div class="bracket-col">
+              <div class="bracket-match" id="sf_1"></div>
+              <div class="bracket-match" id="sf_2"></div>
+              <div class="bracket-match" id="sf_3"></div>
+              <div class="bracket-match" id="sf_4"></div>
+            </div>
+          </div>
+        
+          <!-- DEMI -->
+          <div class="bracket-round">
+            <h3>Demi</h3>
+            <div class="bracket-col">
+              <div class="bracket-match" id="f_1"></div>
+              <div class="bracket-match" id="f_2"></div>
+            </div>
+          </div>
+        
+          <!-- FINALE -->
+          <div class="bracket-round">
+            <h3>Finale</h3>
+            <div class="bracket-col">
+              <div class="bracket-match final-match" id="champion"></div>
+            </div>
+          </div>
+
+</div>
       </div>
       <button class="btn btn-primary" onclick="savePhase2()">💾 Sauvegarder Phase 2</button>
     </div>
