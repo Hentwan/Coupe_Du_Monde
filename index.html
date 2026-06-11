@@ -335,7 +335,7 @@
     .bk-pts {
       font-family: 'Bebas Neue', cursive;
       font-size: 0.75rem;
-      color: #6effa0;
+      color: #ffffff;
       margin-left: auto;
       white-space: nowrap;
       flex-shrink: 0;
@@ -956,12 +956,15 @@
           if (!empty && !locked) {
             teamEl.addEventListener('click', () => pickWinner(m.id, team));
           }
+          const resultKnown = !!actualWinner;
+          const isWrong = isPicked && resultKnown && !isCorrect;
+          
           teamEl.innerHTML =
             (team
               ? `${flagImg(team)}<span class="bk-name">${team}</span>`
               : `<span class="bk-name">—</span>`) +
             (isPicked && !empty
-              ? `<span class="bk-pts">${isCorrect ? '+' + pts + 'pts' : '✓'}</span>`
+              ? `<span class="bk-pts" style="color:${isCorrect ? '#ffffff' : isWrong ? '#ff4d4d' : '#ffffff'}">${isCorrect ? '+' + pts + 'pts' : '✓'}</span>`
               : '');
 
           matchEl.appendChild(teamEl);
