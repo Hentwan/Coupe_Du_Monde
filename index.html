@@ -972,10 +972,7 @@
           teamEl.innerHTML =
             (team
               ? `${flagImg(team)}<span class="bk-name">${team}</span>`
-              : `<span class="bk-name">—</span>`) +
-            (isCorrect && !empty
-              ? `<span class="bk-pts" style="color:#ffffff">+${pts}pts</span>`
-              : '');
+              : `<span class="bk-name">—</span>`) ;
 
           matchEl.appendChild(teamEl);
         });
