@@ -245,25 +245,6 @@
     .slot-num { font-family: 'Bebas Neue', cursive; font-size: 1rem; color: var(--gray); width: 16px; text-align: center; }
     .team-slot { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
 
-    /* ── PHASE 1 HEADER with points ── */
-    .phase1-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .phase1-pts-badge {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 1.1rem;
-      background: rgba(245,197,24,0.15);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      letter-spacing: 0.08em;
-    }
-
     /* ══ BRACKET CLICK-TO-PREDICT ══ */
     .bracket-scroll { overflow-x: auto; padding-bottom: 1rem; }
     .bracket-rounds {
@@ -327,40 +308,13 @@
       color: var(--gold-light);
     }
     .bk-team.selected:first-child { border-bottom: none; }
-    /* ── correct pick: gold border + points badge ── */
-    .bk-team.pick-correct {
-      background: rgba(245,197,24,0.22);
-      border-color: var(--gold) !important;
-      color: var(--gold-light);
-    }
-    .bk-team.pick-correct:first-child { border-bottom: none; }
-    /* ── wrong pick: red strikethrough style ── */
-    .bk-team.pick-wrong {
-      background: rgba(230,57,70,0.15);
-      border-color: var(--red) !important;
-      color: #ff8a93;
-      text-decoration: line-through;
-      text-decoration-color: var(--red);
-      text-decoration-thickness: 2px;
-    }
-    .bk-team.pick-wrong:first-child { border-bottom: none; }
-    .bk-pts-badge {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 0.85rem;
-      color: var(--gold);
-      background: rgba(245,197,24,0.2);
-      border-radius: 3px;
-      padding: 0 5px;
-      margin-left: auto;
-      white-space: nowrap;
-    }
     .bk-team.winner-actual {
       background: rgba(245,197,24,0.3);
       border-color: var(--gold) !important;
       color: var(--gold);
     }
     .bk-team.locked { cursor: default; }
-    .bk-team:not(.empty):not(.locked):not(.pick-correct):not(.pick-wrong):hover {
+    .bk-team:not(.empty):not(.locked):hover {
       background: rgba(255,255,255,0.07);
       border-color: var(--gold);
     }
@@ -376,7 +330,7 @@
       width: 20px;
       flex-shrink: 0;
       align-self: stretch;
-      padding: 28px 0;
+      padding: 28px 0; /* offset for header height */
     }
     .connector-group {
       flex: 1;
@@ -642,11 +596,7 @@
     <!-- PHASE 1 -->
     <div id="phase1-block" style="display:none">
       <div class="card">
-        <div class="phase1-header-row">
-          <h2 style="margin-bottom:0;border-bottom:none;padding-bottom:0">Phase 1 — Groupes <span class="phase-badge" id="phase1-badge">Ouvert</span></h2>
-          <span class="phase1-pts-badge" id="phase1-pts-badge" style="display:none">0 pts</span>
-        </div>
-        <div style="border-bottom:1px solid var(--green-mid);margin:0.75rem 0 1rem"></div>
+        <h2>Phase 1 — Groupes <span class="phase-badge" id="phase1-badge">Ouvert</span></h2>
         <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1.5rem;">Pour chaque groupe, glisse les 4 équipes dans l'ordre prédit (1 à 4). Les 2 premières se qualifient — 5 pts si bonne position, 2 pts si qualifiée mais à la mauvaise place.</p>
         <div class="groups-grid" id="groups-predictions"></div>
       </div>
@@ -715,6 +665,26 @@
         <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">Entre les équipes qualifiées dans l'ordre (1er, 2e) pour calculer les points Phase 1.</p>
         <div class="groups-grid" id="admin-groups-results"></div>
         <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveGroupResults()">Sauvegarder résultats groupes</button>
+      </div>
+
+      <!-- Bonus -->
+      <div class="card">
+        <h2>Résultats Bonus</h2>
+        <div class="bonus-grid">
+          <div class="bonus-item">
+            <label>🏆 Champion du monde</label>
+            <select id="admin-bonus-champion"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>🥈 Finaliste</label>
+            <select id="admin-bonus-finalist"><option value="">-- Choisir --</option></select>
+          </div>
+          <div class="bonus-item">
+            <label>👟 Meilleur buteur</label>
+            <input type="text" id="admin-bonus-scorer" placeholder="Nom du joueur"/>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:1rem;" onclick="saveBonusResults()">Sauvegarder bonus</button>
       </div>
 
       <!-- Définir les 16 matchs des seizièmes -->
@@ -820,12 +790,14 @@
     "Ghana":"https://flagcdn.com/w40/gh.png","Panama":"https://flagcdn.com/w40/pa.png"
   };
 
+  // Round definitions: id, label, points
+  // 16 → 8 → 4 → 2 → 1
   const ROUNDS = [
-    { id: "r16", label: "Seizièmes",    count: 16, ptWin: 3 },
-    { id: "qf",  label: "Huitièmes",   count: 8,  ptWin: 5 },
-    { id: "sf",  label: "Quarts",       count: 4,  ptWin: 8 },
-    { id: "f",   label: "Demi-finales", count: 2,  ptWin: 12 },
-    { id: "fin", label: "Finale",       count: 1,  ptWin: 20 },
+    { id: "r16", label: "Seizièmes",  count: 16, ptWin: 3 },
+    { id: "qf",  label: "Huitièmes",  count: 8,  ptWin: 5 },
+    { id: "sf",  label: "Quarts",     count: 4,  ptWin: 8 },
+    { id: "f",   label: "Demi-finales",count: 2, ptWin: 12 },
+    { id: "fin", label: "Finale",     count: 1,  ptWin: 20 },
   ];
 
   // ══ STATE ══
@@ -833,12 +805,13 @@
   let gameConfig = {
     phase1: "open", phase2: "locked",
     groupResults: {}, bonusResults: {},
-    r16Matches: [],
-    knockoutResults: {}
+    r16Matches: [],      // [{ id, home, away }]  x16
+    knockoutResults: {}  // { matchId: { winner } }
   };
   let allPredictions = {};
   let isAdmin = false;
 
+  // Player's current bracket picks: { matchId: winner }
   let playerBracketPicks = {};
 
   // ══ NAV ══
@@ -887,8 +860,12 @@
   }
 
   // ══ BRACKET LOGIC ══
+  // Given r16 matches and picks, compute which team advances to each subsequent round.
+  // Returns computed matches for every round based on picks.
   function computeBracketFromPicks(r16Matches, picks) {
+    // rounds: r16(16), qf(8), sf(4), f(2), fin(1)
     let currentRoundWinners = r16Matches.map(m => picks[m.id] || null);
+    // Build match list per round
     const matchesByRound = { r16: r16Matches, qf: [], sf: [], f: [], fin: [] };
     const roundIds = ['qf','sf','f','fin'];
     let prev = currentRoundWinners;
@@ -904,7 +881,9 @@
       }
       matchesByRound[rid] = matches;
       prev = matches.map(m => {
+        // winner of this computed match comes from picks
         const w = picks[m.id];
+        // Only valid if the team is actually in this match
         if (w && (w === m.home || w === m.away)) return w;
         return null;
       });
@@ -936,9 +915,6 @@
       const matches = matchesByRound[rid];
       if (!matches || !matches.length) continue;
 
-      const roundDef = ROUNDS.find(r => r.id === rid);
-      const ptWin = roundDef ? roundDef.ptWin : 0;
-
       html += `<div class="bracket-col">
         <div class="bracket-col-header">${roundLabels[rid]}</div>
         <div class="bracket-col-body">`;
@@ -949,58 +925,35 @@
         const homeEmpty = !m.home;
         const awayEmpty = !m.away;
 
-        // Determine result state for each team slot
-        // home team
-        let homeState = '';
-        if (!homeEmpty && pickedWinner === m.home) {
-          if (actualWinner) {
-            homeState = actualWinner === m.home ? 'correct' : 'wrong';
-          } else {
-            homeState = 'selected';
-          }
-        }
-        // away team
-        let awayState = '';
-        if (!awayEmpty && pickedWinner === m.away) {
-          if (actualWinner) {
-            awayState = actualWinner === m.away ? 'correct' : 'wrong';
-          } else {
-            awayState = 'selected';
-          }
-        }
+        const homeClasses = [
+          'bk-team',
+          homeEmpty ? 'empty' : '',
+          locked ? 'locked' : '',
+          !homeEmpty && pickedWinner === m.home ? 'selected' : '',
+          actualWinner && actualWinner === m.home ? 'winner-actual' : ''
+        ].filter(Boolean).join(' ');
 
-        function teamClasses(isEmpty, state) {
-          const cls = ['bk-team'];
-          if (isEmpty) { cls.push('empty'); return cls.join(' '); }
-          if (locked) cls.push('locked');
-          if (state === 'correct') cls.push('pick-correct');
-          else if (state === 'wrong') cls.push('pick-wrong');
-          else if (state === 'selected') cls.push('selected');
-          return cls.join(' ');
-        }
-
-        const homeClasses = teamClasses(homeEmpty, homeState);
-        const awayClasses = teamClasses(awayEmpty, awayState);
+        const awayClasses = [
+          'bk-team',
+          awayEmpty ? 'empty' : '',
+          locked ? 'locked' : '',
+          !awayEmpty && pickedWinner === m.away ? 'selected' : '',
+          actualWinner && actualWinner === m.away ? 'winner-actual' : ''
+        ].filter(Boolean).join(' ');
 
         const homeClick = !homeEmpty && !locked ? `onclick="pickWinner('${m.id}','${escHtml(m.home)}')"` : '';
         const awayClick = !awayEmpty && !locked ? `onclick="pickWinner('${m.id}','${escHtml(m.away)}')"` : '';
-
-        // Badge suffix for correct picks
-        const homeBadge = homeState === 'correct'
-          ? `<span class="bk-pts-badge">+${ptWin}pts</span>` : '';
-        const awayBadge = awayState === 'correct'
-          ? `<span class="bk-pts-badge">+${ptWin}pts</span>` : '';
 
         html += `<div class="bk-match">
           <div class="${homeClasses}" ${homeClick}>
             ${m.home ? flagImg(m.home) : ''}
             <span class="bk-name">${m.home || '—'}</span>
-            ${homeBadge}
+            ${pickedWinner === m.home ? '<span style="font-size:0.7rem;color:var(--gold);margin-left:auto">✓</span>' : ''}
           </div>
           <div class="${awayClasses}" ${awayClick}>
             ${m.away ? flagImg(m.away) : ''}
             <span class="bk-name">${m.away || '—'}</span>
-            ${awayBadge}
+            ${pickedWinner === m.away ? '<span style="font-size:0.7rem;color:var(--gold);margin-left:auto">✓</span>' : ''}
           </div>
         </div>
         <div class="bk-match-sep"></div>`;
@@ -1016,11 +969,14 @@
   window.pickWinner = (matchId, team) => {
     if (gameConfig.phase2 === 'locked') return;
     playerBracketPicks[matchId] = team;
+    // When a pick changes, all downstream picks that depended on a team no longer in the bracket
+    // should be cleared to avoid invalid picks
     propagateAndCleanPicks();
     renderPlayerBracket();
   };
 
   function propagateAndCleanPicks() {
+    // Recompute bracket; any pick where the chosen team is not in the computed match → clear
     const r16 = gameConfig.r16Matches || [];
     if (!r16.length) return;
     const matchesByRound = computeBracketFromPicks(r16, playerBracketPicks);
@@ -1083,24 +1039,6 @@
     }
 
     return { total, breakdown };
-  }
-
-  // ── Calc phase1 points only ──
-  function calcPhase1Score(pred) {
-    let total = 0;
-    if (pred.phase1 && gameConfig.groupResults) {
-      for (const [grp, realOrder] of Object.entries(gameConfig.groupResults)) {
-        const predOrder = pred.phase1.groups?.[grp];
-        if (!predOrder || !realOrder || realOrder.length < 2) continue;
-        let pts = 0;
-        if (predOrder[0] === realOrder[0]) pts += 5;
-        else if (predOrder[0] === realOrder[1]) pts += 2;
-        if (predOrder[1] === realOrder[1]) pts += 5;
-        else if (predOrder[1] === realOrder[0]) pts += 2;
-        total += pts;
-      }
-    }
-    return total;
   }
 
   // ══ LEADERBOARD ══
@@ -1174,7 +1112,7 @@
       }
       currentPlayer = { name, pin };
       document.getElementById('player-id-card').style.display = 'none';
-      renderPhase1(name);
+      renderPhase1();
       renderPhase2();
     } catch(e) {
       showToast("Erreur de connexion Firebase.", true);
@@ -1183,7 +1121,7 @@
   };
 
   // ══ PHASE 1 ══
-  async function renderPhase1(playerName) {
+  async function renderPhase1() {
     const block = document.getElementById('phase1-block');
     block.style.display = 'block';
     const locked = gameConfig.phase1 === 'locked';
@@ -1196,16 +1134,6 @@
       const snap = await getDoc(doc(db, "predictions", currentPlayer.name));
       if (snap.exists()) existing = snap.data().phase1 || {};
     } catch(e) {}
-
-    // Show phase1 pts badge if there are group results
-    const ptsBadge = document.getElementById('phase1-pts-badge');
-    if (Object.keys(gameConfig.groupResults || {}).length > 0) {
-      const p1pts = calcPhase1Score({ phase1: existing });
-      ptsBadge.textContent = `${p1pts} pts`;
-      ptsBadge.style.display = '';
-    } else {
-      ptsBadge.style.display = 'none';
-    }
 
     const container = document.getElementById('groups-predictions');
     container.innerHTML = '';
@@ -1238,13 +1166,6 @@
     try {
       await setDoc(doc(db, "predictions", currentPlayer.name), { _pin: currentPlayer.pin, phase1: { groups } }, { merge: true });
       showToast("✅ Phase 1 sauvegardée !");
-      // Refresh pts badge after save
-      const p1pts = calcPhase1Score({ phase1: { groups } });
-      const ptsBadge = document.getElementById('phase1-pts-badge');
-      if (Object.keys(gameConfig.groupResults || {}).length > 0) {
-        ptsBadge.textContent = `${p1pts} pts`;
-        ptsBadge.style.display = '';
-      }
     } catch(e) { showToast("Erreur de sauvegarde.", true); }
   };
 
@@ -1417,6 +1338,16 @@
     document.getElementById('admin-phase1-status').value = gameConfig.phase1 || 'open';
     document.getElementById('admin-phase2-status').value = gameConfig.phase2 || 'locked';
 
+    ['admin-bonus-champion','admin-bonus-finalist'].forEach(id => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '<option value="">-- Choisir --</option>';
+      ALL_TEAMS.forEach(t => sel.innerHTML += `<option value="${t}">${t}</option>`);
+    });
+    const br = gameConfig.bonusResults || {};
+    document.getElementById('admin-bonus-champion').value = br.champion || '';
+    document.getElementById('admin-bonus-finalist').value = br.finalist || '';
+    document.getElementById('admin-bonus-scorer').value = br.scorer || '';
+
     renderAdminGroupResults();
     renderAdminR16Setup();
     renderAdminKnockoutResults();
@@ -1461,6 +1392,7 @@
         <input type="text" id="r16-away-${id}" placeholder="Équipe 2" value="${escHtml(ex.away||'')}" list="teams-list"/>`;
       container.appendChild(div);
     }
+    // Add datalist for autocomplete
     if (!document.getElementById('teams-list')) {
       const dl = document.createElement('datalist');
       dl.id = 'teams-list';
@@ -1479,6 +1411,7 @@
     }
 
     const kr = gameConfig.knockoutResults || {};
+    // Use actual results as picks to compute which teams advance
     const actualPicks = {};
     Object.entries(kr).forEach(([id, v]) => { if (v.winner) actualPicks[id] = v.winner; });
     const matchesByRound = computeBracketFromPicks(r16, actualPicks);
@@ -1545,6 +1478,19 @@
     } catch(e) { showToast("Erreur.", true); }
   };
 
+  window.saveBonusResults = async () => {
+    const bonusResults = {
+      champion: document.getElementById('admin-bonus-champion').value,
+      finalist: document.getElementById('admin-bonus-finalist').value,
+      scorer: document.getElementById('admin-bonus-scorer').value.trim()
+    };
+    try {
+      await setDoc(doc(db, "config", "game"), { bonusResults }, { merge: true });
+      gameConfig.bonusResults = bonusResults;
+      showToast("✅ Bonus sauvegardés !");
+    } catch(e) { showToast("Erreur.", true); }
+  };
+
   window.saveR16Matches = async () => {
     const r16Matches = [];
     for (let i = 1; i <= 16; i++) {
@@ -1580,6 +1526,7 @@
     try {
       await setDoc(doc(db, "config", "game"), { knockoutResults }, { merge: true });
       gameConfig.knockoutResults = knockoutResults;
+      // Rerender so computed matches update
       renderAdminKnockoutResults();
       showToast("✅ Résultats sauvegardés !");
     } catch(e) { showToast("Erreur.", true); }
