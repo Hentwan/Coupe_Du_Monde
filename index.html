@@ -938,27 +938,12 @@
         matchEl.className = 'bk-match';
 
         [m.home, m.away].forEach(team => {
-          const empty      = !team;
-          const isPicked   = pickedWinner === team;
-          const isActual   = actualWinner === team;
-          const isCorrect  = isPicked && isActual;
-          const pts        = isCorrect ? (round?.ptWin || 0) : 0;
-
-          const cls = ['bk-team',
-            empty         ? 'empty'        : '',
-            locked        ? 'locked'       : '',
-            isCorrect     ? 'correct-pick' : (isPicked ? 'selected' : ''),
-            isActual && !isPicked ? 'winner-actual' : ''
-          ].filter(Boolean).join(' ');
-
-          const teamEl = document.createElement('div');
-          teamEl.className = cls;
-          if (!empty && !locked) {
-            teamEl.addEventListener('click', () => pickWinner(m.id, team));
-          }
-          const resultKnown = !!actualWinner;
-          const isWrong = isPicked && !!actualWinner && !isCorrect;
-
+          const empty     = !team;
+          const isPicked  = pickedWinner === team;
+          const isActual  = actualWinner === team;
+          const isCorrect = isPicked && isActual;
+          const isWrong   = isPicked && !!actualWinner && !isCorrect;
+        
           const cls = ['bk-team',
             empty     ? 'empty'        : '',
             locked    ? 'locked'       : '',
@@ -966,14 +951,17 @@
             isWrong   ? 'wrong-pick'   : '',
             isPicked && !isCorrect && !isWrong ? 'selected' : ''
           ].filter(Boolean).join(' ');
-          
+        
+          const teamEl = document.createElement('div');
           teamEl.className = cls;
-          
+          if (!empty && !locked) {
+            teamEl.addEventListener('click', () => pickWinner(m.id, team));
+          }
           teamEl.innerHTML =
             (team
               ? `${flagImg(team)}<span class="bk-name">${team}</span>`
-              : `<span class="bk-name">—</span>`) ;
-
+              : `<span class="bk-name">—</span>`);
+        
           matchEl.appendChild(teamEl);
         });
 
