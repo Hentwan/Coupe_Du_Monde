@@ -957,14 +957,24 @@
             teamEl.addEventListener('click', () => pickWinner(m.id, team));
           }
           const resultKnown = !!actualWinner;
-          const isWrong = isPicked && resultKnown && !isCorrect;
+          const isWrong = isPicked && !!actualWinner && !isCorrect;
+
+          const cls = ['bk-team',
+            empty     ? 'empty'        : '',
+            locked    ? 'locked'       : '',
+            isCorrect ? 'correct-pick' : '',
+            isWrong   ? 'wrong-pick'   : '',
+            isPicked && !isCorrect && !isWrong ? 'selected' : ''
+          ].filter(Boolean).join(' ');
+          
+          teamEl.className = cls;
           
           teamEl.innerHTML =
             (team
               ? `${flagImg(team)}<span class="bk-name">${team}</span>`
               : `<span class="bk-name">—</span>`) +
-            (isPicked && !empty
-              ? `<span class="bk-pts" style="color:${isCorrect ? '#ffffff' : isWrong ? '#ff4d4d' : '#ffffff'}">${isCorrect ? '+' + pts + 'pts' : '✓'}</span>`
+            (isCorrect && !empty
+              ? `<span class="bk-pts" style="color:#ffffff">+${pts}pts</span>`
               : '');
 
           matchEl.appendChild(teamEl);
