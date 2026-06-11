@@ -315,16 +315,6 @@
       border-color: var(--gold) !important;
       color: var(--gold-light);
     }
-
-    .bk-team.wrong-pick {
-      background: rgba(230, 57, 70, 0.25);
-      border-color: var(--red) !important;
-      color: #ff8a8a;
-    }
-    .bk-team.wrong-pick:first-child { border-bottom: none; }
-
-
-    
     .bk-team.selected:first-child { border-bottom: none; }
     .bk-team.winner-actual {
       background: rgba(245,197,24,0.28);
@@ -967,24 +957,14 @@
             teamEl.addEventListener('click', () => pickWinner(m.id, team));
           }
           const resultKnown = !!actualWinner;
-          const isWrong = isPicked && !!actualWinner && !isCorrect;
-          
-          const cls = ['bk-team',
-            empty     ? 'empty'        : '',
-            locked    ? 'locked'       : '',
-            isCorrect ? 'correct-pick' : '',
-            isWrong   ? 'wrong-pick'   : '',
-            isPicked && !isCorrect && !isWrong ? 'selected' : ''
-          ].filter(Boolean).join(' ');
-          
-          teamEl.className = cls;
+          const isWrong = isPicked && resultKnown && !isCorrect;
           
           teamEl.innerHTML =
             (team
               ? `${flagImg(team)}<span class="bk-name">${team}</span>`
               : `<span class="bk-name">—</span>`) +
-            (isCorrect && !empty
-              ? `<span class="bk-pts" style="color:#ffffff">+${pts}pts</span>`
+            (isPicked && !empty
+              ? `<span class="bk-pts" style="color:${isCorrect ? '#ffffff' : isWrong ? '#ff4d4d' : '#ffffff'}">${isCorrect ? '+' + pts + 'pts' : '✓'}</span>`
               : '');
 
           matchEl.appendChild(teamEl);
